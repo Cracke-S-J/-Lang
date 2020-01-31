@@ -1,10 +1,10 @@
-#include "lexer.h"
-#include "../define/define.h"
-#include "../../util/error.h"
+#include "src/front/lexer/lexer.h"
+#include "src/front/define/define.h"
+#include "src/util/error.h"
 
 namespace {
     bool IsOPChar(char ch) {
-        for(char i : op) {
+        for(char i : oper) {
             if (i == ch) return true;
         }
         return false;
@@ -47,7 +47,7 @@ Token Lexer::nextToken() {
 }
 
 Token Lexer::handleEOF() {
-    set(cur_line, "\n", Type::String);
+    set(cur_line, "\n", Type::End);
     return cur_token;
 }
 
@@ -81,7 +81,7 @@ Token Lexer::handleId() {
         nextChar();
     }
     isEOL() ? line = cur_line - 1 : line = cur_line;
-    IsKeyword(id) ? type = Type::Keyword : Type::Identifier;
+    IsKeyword(id) ? type = Type::Keyword : type = Type::Identifier;
     set(line, id, type);
     return cur_token;
 }
